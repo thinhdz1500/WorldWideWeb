@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <title>sigup</title>
 </head>
 <body>
 <div id="wrapper">
     <div class="container">
         <div class="row justify-content-around">
-            <form action="" class="col-md-4 bg-light p-3 m-3">
+            <form action="sigup" method="post"  name="registrationForm" class="col-md-4 bg-light p-3 m-3" id="form" novalidate>
                 <h1 class="text-center text-uppercase h3 py-3">Subscription From</h1>
                 <div class="form-group">
                     <label for="firstName">First Name</label>
@@ -189,9 +189,6 @@
             return true;
         }
     }
-
-
-
     function isFloat(value) {
         // Chuyển đổi giá trị thành số thực
         const floatValue = parseFloat(value);
@@ -199,7 +196,6 @@
         // Kiểm tra nếu không phải là NaN và là số thực
         return !isNaN(floatValue) && floatValue.toString() === value;
     }
-
     function isString(value) {
         return typeof value === 'string' && isNaN(value);
     }
@@ -208,6 +204,11 @@ document.getElementById('firstName').addEventListener('blur', validatefirstName)
     document.getElementById('lastName').addEventListener('blur', validatelastName);
     document.getElementById('email').addEventListener('blur', validateEmail);
     document.getElementById('password').addEventListener('blur', validatePassword);
+
+    document.getElementById('form').addEventListener('submit', function (event){
+        if(!validatelastName() || !validateUser() || !validatefirstName() || !validateEmail() || !validatePassword())
+            event.preventDefault()
+    })
 </script>
 </body>
 </html>

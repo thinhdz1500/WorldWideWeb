@@ -78,21 +78,10 @@
             firstName.classList.add('is-invalid');
             return false;
         }
-        //6-12 kí tự
-        if (firstName.value.length < 6 || firstName.value.length > 12) {
-            fNameError.textContent = 'First Name phải từ 6-12 kí tự';
-            firstName.classList.add('is-invalid');
-            return false;
-        }
-        //bắt đầu không phải bằng chữ cái
-        if (!/^[a-zA-Z]/.test(firstName.value)) {
-            fNameError.textContent = 'First Name phải bắt đầu bằng chữ cái';
-            firstName.classList.add('is-invalid');
-            return false;
-        }
-        //chứa kí tự khác ngoài chữ cái và chữ số
-        if (!/^[a-zA-Z0-9]+$/.test(firstName.value)) {
-            fNameError.textContent = 'First Name chỉ chứa chữ cái và chữ số';
+
+        //chứa kí tự khác ngoài chữ cái
+        if (!/^[a-zA-Z]+$/.test(firstName.value)) {
+            fNameError.textContent = 'First Name chỉ chứa chữ cái';
             firstName.classList.add('is-invalid');
             return false;
         } else {
@@ -107,21 +96,11 @@
             lastName.classList.add('is-invalid');
             return false;
         }
-        //6-12 kí tự
-        if (lastName.value.length < 6 || lastName.value.length > 12) {
-            lNameError.textContent = 'Last Name phải từ 6-12 kí tự';
-            lastName.classList.add('is-invalid');
-            return false;
-        }
-        //bắt đầu không phải bằng chữ cái
-        if (!/^[a-zA-Z]/.test(lastName.value)) {
-            lNameError.textContent = 'Last name phải bắt đầu bằng chữ cái';
-            lastName.classList.add('is-invalid');
-            return false;
-        }
+
+
         //chứa kí tự khác ngoài chữ cái và chữ số
-        if (!/^[a-zA-Z0-9]+$/.test(lastName.value)) {
-            lNameError.textContent = 'Last name chỉ chứa chữ cái và chữ số';
+        if (!/^[a-zA-Z]+$/.test(lastName.value)) {
+            lNameError.textContent = 'Last name chỉ chứa chữ cái';
             lastName.classList.add('is-invalid');
             return false;
         } else {

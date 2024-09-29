@@ -15,11 +15,11 @@ public class SigupServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Object firstName = req.getParameter("firstName");
         Object lastName = req.getParameter("lastName");
-        Object username = req.getParameter("username");
-        Object email = req.getParameter("email");
-        Object password = req.getParameter("password");
-        Object fb = req.getParameter("fb");
-        Object bio = req.getParameter("bio");
+//        Object username = req.getParameter("username");
+//        Object email = req.getParameter("email");
+//        Object password = req.getParameter("password");
+//        Object fb = req.getParameter("fb");
+//        Object bio = req.getParameter("bio");
 
         PrintWriter out =resp.getWriter();
         out.println("<h1> Sigup success, hello "+ firstName+" "+lastName);
@@ -27,16 +27,15 @@ public class SigupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        super.doPost(req, resp);
-//        Object firstName = req.getParameter("firstName");
-//        Object lastName = req.getParameter("lastName");
+        Object firstName = req.getParameter("firstName");
+        Object lastName = req.getParameter("lastName");
 //        Object username = req.getParameter("username");
 //        Object email = req.getParameter("email");
 //        Object password = req.getParameter("password");
 //        Object fb = req.getParameter("fb");
 //        Object bio = req.getParameter("bio");
-//
-//        PrintWriter out =resp.getWriter();
-//        out.println("<h1> Sigup success, hello "+ firstName+" "+lastName);
+
+        PrintWriter out =resp.getWriter();
+        out.println("<h1> Sigup success, hello "+ firstName+" "+lastName);
     }
 }

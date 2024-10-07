@@ -22,6 +22,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Path("/products")
@@ -32,7 +34,17 @@ public class ProductResource {
     private ProductPriceLocal productPriceLocal;
     @GET
     public Response getProducts() {
-        return Response.ok(productLocal.getProducts()).build();
+        List<Product> products = productLocal.getProducts();
+        List<ProductDTO> productDTOs = new ArrayList<>();
+        for (Product product : products) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setPrice(productPriceLocal.getProductPriceByProductId(product.getId()).getValue());
+            productDTOs.add(productDTO);
+        }
+        return Response.ok(productDTOs).build();
     }
     @GET
     @Path("/{id}")
@@ -62,11 +74,12 @@ public class ProductResource {
     }
     @DELETE
     @Path("/{id}")
-    public Response deleteProduct(@PathParam("id") Long id) {
+    public Response deleteProduct(@PathParam("id") int id) {
         try {
             // Kiểm tra xem sản phẩm có tồn tại không
             Product product = productLocal.getProduct(id);
             if (product != null) {
+                productPriceLocal.delete(productPriceLocal.getProductPriceByProductId(product.getId()));
                 productLocal.delete(product); // Gọi phương thức xóa
                 return Response.noContent().build(); // Trả về phản hồi 204 No Content
             } else {

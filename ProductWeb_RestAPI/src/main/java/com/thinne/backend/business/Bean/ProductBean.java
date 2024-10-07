@@ -25,7 +25,7 @@ public class ProductBean implements ProductLocal {
     }
 
     @Override
-    public Product getProduct(long id) {
+    public Product getProduct(int id) {
         return productRepository.findById(id);
     }
 

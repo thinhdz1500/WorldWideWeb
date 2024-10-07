@@ -13,7 +13,7 @@ public class ProductRepository {
     public void save(Product product) {
         em.persist(product);
     }
-    public Product findById(Long id) {
+    public Product findById(int id) {
         return em.find(Product.class, id);
     }
     public List<Product> findAll() {

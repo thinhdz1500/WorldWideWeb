@@ -12,7 +12,9 @@ import java.time.LocalDate;
 @Table(name = "product_price")
 @NamedQueries({
         @NamedQuery(name = "Product_price.findAll", query = "select pc from ProductPrice pc"),
-        @NamedQuery(name = "Product_price.findById", query = "select pc from ProductPrice pc where pc.id = :id")
+        @NamedQuery(name = "Product_price.findById", query = "select pc from ProductPrice pc where pc.id = :id"),
+        @NamedQuery(name = "Product_price.findByProductId",
+        query = "select pc from ProductPrice pc where pc.product.id =:id ")
 })
 public class ProductPrice implements Serializable{
     @Id

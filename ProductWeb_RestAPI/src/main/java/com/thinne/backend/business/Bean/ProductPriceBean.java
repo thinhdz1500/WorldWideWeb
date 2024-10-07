@@ -6,6 +6,8 @@ import com.thinne.backend.data.repositories.ProductPriceRespository;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
 
+import java.util.List;
+
 @Stateless
 public class ProductPriceBean implements ProductPriceLocal {
     @Inject
@@ -22,11 +24,17 @@ public class ProductPriceBean implements ProductPriceLocal {
 
     @Override
     public void delete(ProductPrice productPrice) {
-
+        productPriceRespository.delete(productPrice);
     }
 
     @Override
     public ProductPrice getProductPrice(int id) {
         return null;
     }
+
+    @Override
+    public ProductPrice getProductPriceByProductId(int productId) {
+        return productPriceRespository.findByProduct(productId);
+    }
+
 }

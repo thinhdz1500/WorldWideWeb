@@ -10,6 +10,6 @@ public interface ProductLocal {
     void add(Product product);
 //    void update(Product product);
     void delete(Product product);
-    Product getProduct(long id);
+    Product getProduct(int id);
     List<Product> getProducts();
 }

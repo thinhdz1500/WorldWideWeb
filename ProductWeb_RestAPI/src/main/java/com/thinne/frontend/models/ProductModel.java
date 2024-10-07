@@ -1,6 +1,8 @@
 package com.thinne.frontend.models;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 // import com.google.gson.Gson;
 // import com.thinne.backend.business.Bean.ProductBean;
@@ -13,7 +15,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Request;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.client.Entity;
-
 import java.util.List;
 
 public class ProductModel {
@@ -43,8 +44,8 @@ public class ProductModel {
             throw new RuntimeException(errorMessage, e);
         }
     }
-
     public List<ProductDTO> getAllProducts() {
+
         return executeRequest("", new TypeReference<List<ProductDTO>>() {});
     }
 

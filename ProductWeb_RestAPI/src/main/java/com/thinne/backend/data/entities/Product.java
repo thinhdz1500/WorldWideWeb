@@ -14,13 +14,12 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = "Product.findAll", query = "select p from Product p"),
         @NamedQuery(name = "Product.findById", query = "select p from Product p where p.id = :id"),
-//        @NamedQuery(name = "Product.findAllJoinPrice", query = "select * from ProductPrice pc join Product p on pc.id = p.id")
 })
 public class Product implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
-    private Long id;
+    private int id;
 //    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 //    private Set<ProductPrice> productPrices = new HashSet<>();
     @Size(max = 250)
@@ -51,11 +50,11 @@ public class Product implements Serializable{
 //        this.productPrices = productPrices;
 //    }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

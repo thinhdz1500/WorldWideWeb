@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <title>sigup</title>
+</head>
+<body>
+<div id="wrapper">
+    <div class="container">
+        <div class="row justify-content-around">
+            <form action="sigup" method="post"  name="registrationForm" class="col-md-4 bg-light p-3 m-3" id="form" novalidate>
+                <h1 class="text-center text-uppercase h3 py-3">Subscription From</h1>
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" name="firstName" id="firstName" class="form-control">
+                    <div class="invalid-feedback" id="fNameError">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" name="lastName" id="lastName" class="form-control">
+                    <div class="invalid-feedback" id="lNameError">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="userName">Username</label>
+                    <input type="text" name="userName" id="userName" class="form-control">
+                    <div class="invalid-feedback" id="userError">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="text" name="email" id="email" class="form-control">
+                    <div class="invalid-feedback" id="emailError">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control">
+                    <div class="invalid-feedback" id="pwError">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fb">Facebook</label>
+                    <input type="text" name="fb" id="fb" class="form-control">
+                    <div class="description-from-type-label" id="fbError">
+                        <p>Enter your Facebook profile URL</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bio">Sort Bio</label>
+                    <textarea id="bio" name="bio" rows="4" cols="50"> </textarea>
+                    <div class="description-from-type-label" id="bioError">
+                        <p>Share a little infomation about yourself</p>
+                    </div>
+                </div>
+                <input type="submit" value="submit" class="btn-primary btn btn-block ">
+            </form>
+        </div>
+    </div>
+</div>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script>
+    const firstName = document.getElementById('firstName');
+    const lastName = document.getElementById('lastName');
+    const userName = document.getElementById('userName');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const fb = document.getElementById('fb');
+    const bio = document.getElementById('bio')
+
+
+    function validatefirstName() {
+        if (firstName.value === '') {
+            fNameError.textContent = 'First Name không được để trống';
+            firstName.classList.add('is-invalid');
+            return false;
+        }
+
+        //chứa kí tự khác ngoài chữ cái
+        if (!/^[a-zA-Z]+$/.test(firstName.value)) {
+            fNameError.textContent = 'First Name chỉ chứa chữ cái';
+            firstName.classList.add('is-invalid');
+            return false;
+        } else {
+            fNameError.textContent = '';
+            firstName.classList.remove('is-invalid');
+            return true;
+        }
+    }
+    function validatelastName() {
+        if (lastName.value === '') {
+            lNameError.textContent = 'Last Name không được để trống';
+            lastName.classList.add('is-invalid');
+            return false;
+        }
+
+
+        //chứa kí tự khác ngoài chữ cái và chữ số
+        if (!/^[a-zA-Z]+$/.test(lastName.value)) {
+            lNameError.textContent = 'Last name chỉ chứa chữ cái';
+            lastName.classList.add('is-invalid');
+            return false;
+        } else {
+            lNameError.textContent = '';
+            lastName.classList.remove('is-invalid');
+            return true;
+        }
+    }
+
+    function validateUser() {
+        if (userName.value === '') {
+            userError.textContent = 'User name không được để trống';
+            userName.classList.add('is-invalid');
+            return false;
+        }
+        //6-12 kí tự
+        if (userName.value.length < 6 || userName.value.length > 12) {
+            userError.textContent = 'User name phải từ 6-12 kí tự';
+            userName.classList.add('is-invalid');
+            return false;
+        }
+        //bắt đầu không phải bằng chữ cái
+        if (!/^[a-zA-Z]/.test(userName.value)) {
+            userError.textContent = 'User name phải bắt đầu bằng chữ cái';
+            userName.classList.add('is-invalid');
+            return false;
+        }
+        //chứa kí tự khác ngoài chữ cái và chữ số
+        if (!/^[a-zA-Z0-9]+$/.test(userName.value)) {
+            userError.textContent = 'User name chỉ chứa chữ cái và chữ số';
+            userName.classList.add('is-invalid');
+            return false;
+        } else {
+            userError.textContent = '';
+            userName.classList.remove('is-invalid');
+            return true;
+        }
+    }
+    function validateEmail() {
+        if (email.value === '') {
+            emailError.textContent = 'Email không được để trống';
+            email.classList.add('is-invalid');
+            return false;
+        }
+        if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.value)) {
+            emailError.textContent = 'Email phải chứa @ và tiên miền';
+            email.classList.add('is-invalid');
+            return false;
+        }
+        else {
+            emailError.textContent = '';
+            email.classList.remove('is-invalid');
+            return true;
+        }
+    }
+    function validatePassword() {
+        if (password.value === '') {
+            pwError.textContent = 'password không được để trống';
+            password.classList.add('is-invalid');
+            return false;
+        }
+         else {
+            pwError.textContent = '';
+            password.classList.remove('is-invalid');
+            return true;
+        }
+    }
+    function isFloat(value) {
+        // Chuyển đổi giá trị thành số thực
+        const floatValue = parseFloat(value);
+
+        // Kiểm tra nếu không phải là NaN và là số thực
+        return !isNaN(floatValue) && floatValue.toString() === value;
+    }
+    function isString(value) {
+        return typeof value === 'string' && isNaN(value);
+    }
+document.getElementById('firstName').addEventListener('blur', validatefirstName)
+    document.getElementById('userName').addEventListener('blur', validateUser);
+    document.getElementById('lastName').addEventListener('blur', validatelastName);
+    document.getElementById('email').addEventListener('blur', validateEmail);
+    document.getElementById('password').addEventListener('blur', validatePassword);
+
+    document.getElementById('form').addEventListener('submit', function (event){
+        if(!validatelastName() || !validateUser() || !validatefirstName() || !validateEmail() || !validatePassword())
+            event.preventDefault()
+    })
+</script>
+</body>
+</html>

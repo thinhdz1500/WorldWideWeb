@@ -1,6 +1,8 @@
 package com.thinne.frontend.controllers;
 
-import com.thinne.frontend.dtos.Product;
+import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.thinne.backend.data.entities.Product;
+import com.thinne.frontend.dtos.ProductDTO;
 import com.thinne.frontend.models.ProductModel;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
@@ -31,15 +33,40 @@ public class Controller extends HttpServlet {
             case "find_product":
                 findProduct(req, resp);
                 break;
+
+            default:
+                listProducts(req, resp);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        String action = req.getParameter("action");
+        switch (action.toLowerCase()) {
+            case "add_product":
+                addProduct(req, resp);
+                break;
+            case "delete_product":
+                deleteProduct(req, resp);
+                break;
             default:
                 listProducts(req, resp);
         }
     }
 
     private void listProducts(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Product> products = productModel.getAllProducts();
-        req.setAttribute("products", products);
+        List<ProductDTO> productDTOS = productModel.getAllProducts();
+        req.setAttribute("productDTOS", productDTOS);
         req.getRequestDispatcher("views/products.jsp").forward(req, resp);
+        // Thiết lập kiểu nội dung là JSON
+        // resp.setContentType("application/json");
+        // resp.setCharacterEncoding("UTF-8");
+
+        // // Chuyển đổi danh sách sản phẩm thành JSON
+        // String json = new ObjectMapper().writeValueAsString(productDTOS);
+        // // Gửi JSON về client
+        // resp.getWriter().write(json);
     }
 
     private void findProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,8 +74,8 @@ public class Controller extends HttpServlet {
         if (idParam != null && !idParam.isEmpty()) {
             try {
                 int id = Integer.parseInt(idParam);
-                Product product = productModel.getProductById(id);
-                req.setAttribute("foundProduct", product);
+                ProductDTO productDTO = productModel.getProductById(id);
+                req.setAttribute("foundProduct", productDTO);
             } catch (NumberFormatException e) {
                 req.setAttribute("error", "ID sản phẩm không hợp lệ");
             } catch (Exception e) {
@@ -56,5 +83,35 @@ public class Controller extends HttpServlet {
             }
         }
         listProducts(req, resp);
+    }
+
+    private void addProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String name = req.getParameter("name");
+        String description = req.getParameter("description");
+        double price = Double.parseDouble(req.getParameter("price"));
+        ProductDTO productDTO = new ProductDTO(name, description, null, price);
+        productModel.addProduct(productDTO);
+        resp.sendRedirect("controller?action=list_products");
+//        req.setAttribute("productDTOS", productModel.getAllProducts());
+//        req.getRequestDispatcher("views/products.jsp").forward(req, resp);
+    }
+
+    private void deleteProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String idParam = req.getParameter("id");
+        if (idParam != null && !idParam.isEmpty()) {
+            try {
+
+                int id = Integer.parseInt(idParam);
+                productModel.deleteProduct(id); // Gọi phương thức xóa
+            } catch (NumberFormatException e) {
+                req.setAttribute("error", "ID sản phẩm không hợp lệ");
+            } catch (Exception e) {
+                req.setAttribute("error", "Không thể xóa sản phẩm");
+            }
+        }
+        resp.sendRedirect("controller?action=list_products");
+//        req.setAttribute("productDTOS", productModel.getAllProducts());
+//        req.getRequestDispatcher("views/products.jsp").forward(req, resp);
     }
 }

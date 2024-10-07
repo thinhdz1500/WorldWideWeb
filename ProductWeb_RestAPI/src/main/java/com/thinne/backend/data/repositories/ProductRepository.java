@@ -20,7 +20,13 @@ public class ProductRepository {
         return em.createNamedQuery("Product.findAll", Product.class).getResultList();
     }
     public void delete(Product product) {
-        em.remove(product);
+        // Tìm lại thực thể từ EntityManager
+        Product managedProduct = em.find(Product.class, product.getId());
+        if (managedProduct != null) {
+            em.remove(managedProduct);
+        } else {
+            throw new IllegalArgumentException("Product not found");
+        }
     }
     //....,..
 }

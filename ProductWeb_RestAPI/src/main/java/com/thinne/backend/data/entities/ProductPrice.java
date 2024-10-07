@@ -4,16 +4,21 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "product_price")
-public class ProductPrice {
+@NamedQueries({
+        @NamedQuery(name = "Product_price.findAll", query = "select pc from ProductPrice pc"),
+        @NamedQuery(name = "Product_price.findById", query = "select pc from ProductPrice pc where pc.id = :id")
+})
+public class ProductPrice implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "price_id", nullable = false)
     private Long id;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
@@ -25,7 +30,7 @@ public class ProductPrice {
 
     @NotNull
     @Column(name = "apply_date", nullable = false)
-    private Instant applyDate;
+    private LocalDate applyDate;
 
     @Size(max = 250)
     @Column(name = "note", length = 250)
@@ -59,11 +64,11 @@ public class ProductPrice {
         this.value = value;
     }
 
-    public Instant getApplyDate() {
+    public LocalDate getApplyDate() {
         return applyDate;
     }
 
-    public void setApplyDate(Instant applyDate) {
+    public void setApplyDate(LocalDate applyDate) {
         this.applyDate = applyDate;
     }
 

@@ -14,6 +14,6 @@
     <h1> HOme sweet home</h1>
     <hr width="50%" align="center"/>
     <h2>PRODUCTS</h2>
-    <a href="controller?action=list_products">List products</a>
+    <a href="controller?action=list_products">List productDTOS</a>
 </body>
 </html>

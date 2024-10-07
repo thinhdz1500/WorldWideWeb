@@ -4,20 +4,25 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
 @NamedQueries({
         @NamedQuery(name = "Product.findAll", query = "select p from Product p"),
-        @NamedQuery(name = "Product.findById", query = "select p from Product p where p.id = :id")
+        @NamedQuery(name = "Product.findById", query = "select p from Product p where p.id = :id"),
+//        @NamedQuery(name = "Product.findAllJoinPrice", query = "select * from ProductPrice pc join Product p on pc.id = p.id")
 })
-public class Product {
+public class Product implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id", nullable = false)
     private Long id;
-
+//    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    private Set<ProductPrice> productPrices = new HashSet<>();
     @Size(max = 250)
     @NotNull
     @Column(name = "name", nullable = false, length = 250)
@@ -30,6 +35,21 @@ public class Product {
     @Size(max = 250)
     @Column(name = "img_path", length = 250)
     private String imgPath;
+    public Product(){
+    }
+    public Product(String name, String description, String imgPath) {
+        this.name = name;
+        this.description = description;
+        this.imgPath = imgPath;
+    }
+
+//    public Set<ProductPrice> getProductPrices() {
+//        return productPrices;
+//    }
+//
+//    public void setProductPrices(Set<ProductPrice> productPrices) {
+//        this.productPrices = productPrices;
+//    }
 
     public Long getId() {
         return id;

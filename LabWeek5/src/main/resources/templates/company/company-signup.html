@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Registration - Job Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-6 text-center">Company Registration</h1>
+            
+            <form class="space-y-6">
+                <!-- Company Basic Information -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold">Basic Information</h2>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="compName">
+                            Company Name *
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="compName" 
+                               name="compName"
+                               type="text" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email Address *
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="email" 
+                               name="email"
+                               type="email" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                            Password *
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="password" 
+                               name="password"
+                               type="password" 
+                               required>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirmPassword">
+                            Confirm Password *
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="confirmPassword" 
+                               name="confirmPassword"
+                               type="password" 
+                               required>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold">Contact Information</h2>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+                            Phone Number
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="phone" 
+                               name="phone"
+                               type="tel">
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="webUrl">
+                            Website URL
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                               id="webUrl" 
+                               name="webUrl"
+                               type="url" 
+                               placeholder="https://example.com">
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold">Address</h2>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="street">
+                                Street *
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                   id="street" 
+                                   name="street"
+                                   type="text"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="number">
+                                Street Number *
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                   id="number" 
+                                   name="number"
+                                   type="text"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="city">
+                                City *
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                   id="city" 
+                                   name="city"
+                                   type="text"
+                                   required>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="zipcode">
+                                Zip Code *
+                            </label>
+                            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                   id="zipcode" 
+                                   name="zipcode"
+                                   type="text"
+                                   maxlength="7"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="country">
+                            Country *
+                        </label>
+                        <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                id="country" 
+                                name="country"
+                                required>
+                            <option value="">Select a country</option>
+                            <option value="1">United States</option>
+                            <option value="2">United Kingdom</option>
+                            <option value="3">Canada</option>
+                            <option value="4">Australia</option>
+                            <option value="5">Germany</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Company Description -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-semibold">Company Description</h2>
+                    
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="about">
+                            About Company
+                        </label>
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                                  id="about" 
+                                  name="about"
+                                  rows="4"></textarea>
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <input id="terms" 
+                               name="terms"
+                               type="checkbox" 
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                               required>
+                        <label for="terms" class="ml-2 block text-sm text-gray-900">
+                            I agree to the 
+                            <a href="#" class="text-blue-600 hover:text-blue-800">Terms and Conditions</a>
+                            and
+                            <a href="#" class="text-blue-600 hover:text-blue-800">Privacy Policy</a>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex flex-col gap-4">
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                            type="submit">
+                        Create Account
+                    </button>
+                    <p class="text-center text-gray-600">
+                        Already have an account? 
+                        <a href="company-login.html" class="text-blue-500 hover:text-blue-800">Sign in</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Candidates - Company Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-8">Search Candidates</h1>
+        
+        <!-- Search Form -->
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="skill">
+                        Required Skill
+                    </label>
+                    <select class="shadow border rounded w-full py-2 px-3 text-gray-700" id="skill" name="skill">
+                        <option value="">Select Skill</option>
+                        <!-- Thymeleaf will populate skills -->
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="experience">
+                        Minimum Experience
+                    </label>
+                    <select class="shadow border rounded w-full py-2 px-3 text-gray-700" id="experience" name="experience">
+                        <option value="0">Any</option>
+                        <option value="1">1 Year</option>
+                        <option value="2">2 Years</option>
+                        <option value="3">3 Years</option>
+                        <option value="5">5+ Years</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="skillLevel">
+                        Minimum Skill Level
+                    </label>
+                    <select class="shadow border rounded w-full py-2 px-3 text-gray-700" id="skillLevel" name="skillLevel">
+                        <option value="1">Beginner</option>
+                        <option value="2">Intermediate</option>
+                        <option value="3">Advanced</option>
+                        <option value="4">Expert</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    type="submit">
+                Search Candidates
+            </button>
+        </form>
+        
+        <!-- Search Results -->
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+            <h2 class="text-2xl font-bold mb-4">Matching Candidates</h2>
+            
+            <!-- Candidate List - Will be populated by Thymeleaf -->
+            <div class="divide-y">
+                <div class="py-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-xl font-bold">Candidate Name</h3>
+                            <p class="text-gray-600">email@example.com</p>
+                        </div>
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                onclick="showEmailModal()">
+                            Send Invitation
+                        </button>
+                    </div>
+                    <div class="mb-2">
+                        <h4 class="font-semibold mb-1">Skills:</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                                Skill 1 (Advanced)
+                            </span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+                                Skill 2 (Intermediate)
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold mb-1">Experience:</h4>
+                        <div class="text-sm text-gray-600">
+                            <p>Company Name - Role (2 years)</p>
+                            <p>Previous Company - Previous Role (1.5 years)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Modal -->
+    <div id="emailModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-bold mb-4">Send Invitation Email</h3>
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="subject">
+                            Subject
+                        </label>
+                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" 
+                               id="subject" type="text" name="subject" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="message">
+                            Message
+                        </label>
+                        <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" 
+                                  id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end gap-2">
+                        <button type="button" 
+                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                                onclick="hideEmailModal()">
+                            Cancel
+                        </button>
+                        <button type="submit" 
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                            Send
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showEmailModal() {
+            document.getElementById('emailModal').classList.remove('hidden');
+        }
+        
+        function hideEmailModal() {
+            document.getElementById('emailModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

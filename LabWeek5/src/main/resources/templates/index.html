@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-white shadow">
+        <nav class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xl font-semibold text-gray-700">
+                    <a href="index.html">Job Portal</a>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="candidate-login.html" class="text-gray-800 hover:text-blue-600">Candidate Login</a>
+                    <a href="#" class="text-gray-800 hover:text-blue-600">Company Login</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        <h1 class="text-3xl font-bold mb-8 text-center">Welcome to Job Portal</h1>
+
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-2xl font-bold mb-4">For Candidates</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="candidate-login.html" class="text-blue-600 hover:underline">Login</a>
+                    </li>
+                    <li>
+                        <a href="candidate-dashboard.html" class="text-blue-600 hover:underline">Dashboard</a>
+                        <p class="text-sm text-gray-600">View recommended jobs and skills</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-2xl font-bold mb-4">For Companies</h2>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="text-blue-600 hover:underline">Company Login</a>
+                    </li>
+                    <li>
+                        <a href="post-job.html" class="text-blue-600 hover:underline">Post a Job</a>
+                        <p class="text-sm text-gray-600">Create new job listings</p>
+                    </li>
+                    <li>
+                        <a href="company-search.html" class="text-blue-600 hover:underline">Search Candidates</a>
+                        <p class="text-sm text-gray-600">Find and contact suitable candidates</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="mt-12">
+            <h2 class="text-2xl font-bold mb-4 text-center">How It Works</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-semibold mb-2">For Candidates</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                        <li>Create an account and log in</li>
+                        <li>Add your skills and experience</li>
+                        <li>Browse recommended jobs</li>
+                        <li>Apply to positions that interest you</li>
+                    </ol>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-semibold mb-2">For Companies</h3>
+                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                        <li>Create a company account</li>
+                        <li>Post job listings with required skills</li>
+                        <li>Search for candidates with matching skills</li>
+                        <li>Contact potential candidates directly</li>
+                    </ol>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-semibold mb-2">Skill Matching</h3>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li>Advanced algorithm matches candidates to jobs</li>
+                        <li>Suggests skills for candidates to learn</li>
+                        <li>Helps companies find the right talent</li>
+                        <li>Continuously improves based on user feedback</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-12">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p>&copy; 2023 Job Portal. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-gray-300">About</a>
+                    <a href="#" class="hover:text-gray-300">Contact</a>
+                    <a href="#" class="hover:text-gray-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-300">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

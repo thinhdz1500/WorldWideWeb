@@ -25,7 +25,8 @@ public class JobSkill {
     @Column(name = "more_infos", length = 1000)
     private String moreInfos;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "skill_level", nullable = false)
-    private Byte skillLevel;
+    private SkillLevel skillLevel;
 
 }

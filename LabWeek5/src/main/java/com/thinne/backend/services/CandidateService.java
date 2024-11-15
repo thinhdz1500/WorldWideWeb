@@ -25,4 +25,7 @@ public class CandidateService {
     public List<Candidate> findAll() {
         return candidateRepository.findAll();
     }
+    public Candidate findByEmail(String email) {
+        return candidateRepository.findByEmail(email);
+    }
 }

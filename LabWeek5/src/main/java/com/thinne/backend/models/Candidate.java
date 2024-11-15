@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,7 +36,13 @@ public class Candidate {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "address", nullable = false)
     private Address address;
-
+    @Column(name = "password", nullable = false)
+    private String password;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "candidate_skill",
+            joinColumns = @JoinColumn(name = "candidate_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private Set<Skill> skills;
     public Candidate(String fullName, LocalDate dob, Address add, String phone, String email) {
             this.fullName = fullName;
             this.dob = dob;

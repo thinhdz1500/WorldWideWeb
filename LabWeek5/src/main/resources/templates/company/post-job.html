@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,68 +7,209 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">Post a New Job</h1>
-        
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="jobName">
-                    Job Title
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                       id="jobName" type="text" name="jobName" required>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="jobDesc">
-                    Job Description
-                </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                          id="jobDesc" name="jobDesc" rows="4" required></textarea>
-            </div>
-            
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Post a New Job</h1>
+
+    <form id="jobPostForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/company/post-job" method="post" onsubmit="return validateForm()">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="jobName">
+                Job Title
+            </label>
+            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   id="jobName" type="text" name="jobName" required>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="jobDesc">
+                Job Description
+            </label>
+            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      id="jobDesc" name="jobDesc" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-4">
+            <div class="flex justify-between items-center mb-2">
+                <label class="block text-gray-700 text-sm font-bold">
                     Required Skills
                 </label>
-                <div class="skill-container" id="skillContainer">
-                    <div class="skill-entry flex gap-4 mb-2">
-                        <select class="shadow border rounded py-2 px-3 text-gray-700 w-1/3" name="skills[]" required>
-                            <option value="">Select Skill</option>
-                            <!-- Thymeleaf will populate skills -->
-                        </select>
-                        <select class="shadow border rounded py-2 px-3 text-gray-700 w-1/3" name="skillLevels[]" required>
-                            <option value="1">Beginner</option>
-                            <option value="2">Intermediate</option>
-                            <option value="3">Advanced</option>
-                            <option value="4">Expert</option>
-                        </select>
-                        <input class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700" 
-                               type="text" name="moreInfos[]" placeholder="Additional requirements">
-                    </div>
-                </div>
-                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded mt-2" onclick="addSkillEntry()">
-                    Add Another Skill
+                <button type="button"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+                        onclick="openSkillModal()">
+                    Add Skill
                 </button>
             </div>
-            
-            <div class="flex items-center justify-between">
-                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-                        type="submit">
-                    Post Job
-                </button>
+            <div id="skillContainer" class="space-y-2">
+                <!-- Skill entries will be added here -->
             </div>
-        </form>
-    </div>
+            <p id="skillError" class="text-red-500 text-xs italic hidden">Please add at least one skill and fill in all skill fields.</p>
+        </div>
 
-    <script>
-        function addSkillEntry() {
+        <div class="flex items-center justify-between">
+            <input type="hidden" name="selectedSkills" id="selectedSkills">
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                Post Job
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Skill Selection Modal -->
+<div id="skillModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative top-20 mx-auto p-5 border w-3/4 max-w-4xl shadow-lg rounded-md bg-white">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold">Select a Skill</h3>
+            <button onclick="closeSkillModal()" class="text-gray-600 hover:text-gray-800">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mt-2">
+            <input type="text"
+                   placeholder="Search skills..."
+                   class="w-full px-3 py-2 border rounded-md mb-4"
+                   oninput="filterSkills(this.value)">
+            <div class="max-h-[60vh] overflow-y-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            ID
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Skill Name
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Description
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Type
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="skillList" class="bg-white divide-y divide-gray-200">
+                    <!-- Skills will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    const skills = /*[[${skill}]]*/ [];
+
+    let selectedSkills = [];
+
+    function createSkillEntry(skillId, skillName) {
+        const entry = document.createElement('div');
+        entry.className = 'flex gap-4 items-start p-4 bg-gray-50 rounded-lg';
+        entry.innerHTML = `
+            <div class="flex-1">
+                <input type="hidden" name="skills[]" value="${skillId}">
+                <div class="font-medium">${skillName}</div>
+            </div>
+            <select class="shadow border rounded py-2 px-3 text-gray-700" name="skillLevels[]" required>
+                <option value="">Select Level</option>
+                <option value="BEGINNER">BEGINNER</option>
+                <option value="INTERMEDIATE">INTERMEDIATE</option>
+                <option value="ADVANCED">ADVANCED</option>
+                <option value="MASTER">MASTER</option>
+                <option value="PROFESSIONAL">PROFESSIONAL</option>
+            </select>
+            <input class="shadow appearance-none border rounded flex-1 py-2 px-3 text-gray-700"
+                   type="text" name="moreInfos[]" placeholder="Additional requirements">
+            <button type="button"
+                    class="text-red-500 hover:text-red-700"
+                    onclick="removeSkillEntry(this, ${skillId})">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        `;
+        return entry;
+    }
+
+    function openSkillModal() {
+        document.getElementById('skillModal').classList.remove('hidden');
+        populateSkillList();
+    }
+
+    function closeSkillModal() {
+        document.getElementById('skillModal').classList.add('hidden');
+    }
+
+    function selectSkill(skillId, skillName) {
+        if (!selectedSkills.includes(skillId)) {
+            selectedSkills.push(skillId);
             const container = document.getElementById('skillContainer');
-            const newEntry = container.children[0].cloneNode(true);
-            // Clear any selected values
-            newEntry.querySelectorAll('select, input').forEach(element => element.value = '');
-            container.appendChild(newEntry);
+            container.appendChild(createSkillEntry(skillId, skillName));
+            document.getElementById('selectedSkills').value = JSON.stringify(selectedSkills);
         }
-    </script>
+        closeSkillModal();
+    }
+
+    function removeSkillEntry(button, skillId) {
+        const entry = button.closest('.flex');
+        entry.remove();
+        selectedSkills = selectedSkills.filter(id => id !== skillId);
+        document.getElementById('selectedSkills').value = JSON.stringify(selectedSkills);
+    }
+
+    function filterSkills(searchText) {
+        const filteredSkills = skills.filter(skill =>
+            skill.skillName.toLowerCase().includes(searchText.toLowerCase()) ||
+            skill.skillDescription.toLowerCase().includes(searchText.toLowerCase()) ||
+            skill.type.toLowerCase().includes(searchText.toLowerCase())
+        );
+        populateSkillList(filteredSkills);
+    }
+
+    function populateSkillList(skillsToShow = skills) {
+        const skillList = document.getElementById('skillList');
+        skillList.innerHTML = skillsToShow.map((skill, index) => `
+            <tr class="${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100 cursor-pointer"
+                onclick="selectSkill(${skill.id}, '${skill.skillName}')">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ${skill.id}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    ${skill.skillName}
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                    ${skill.skillDescription}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${skill.type}
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function validateForm() {
+        const skillContainer = document.getElementById('skillContainer');
+        const skillEntries = skillContainer.children;
+        const skillError = document.getElementById('skillError');
+
+        if (skillEntries.length === 0) {
+            skillError.classList.remove('hidden');
+            return false;
+        }
+
+        for (let entry of skillEntries) {
+            const level = entry.querySelector('select[name="skillLevels[]"]');
+            const moreInfo = entry.querySelector('input[name="moreInfos[]"]');
+
+            if (level.value === '' || moreInfo.value.trim() === '') {
+                skillError.classList.remove('hidden');
+                return false;
+            }
+        }
+
+        skillError.classList.add('hidden');
+        return true;
+    }
+</script>
 </body>
 </html>

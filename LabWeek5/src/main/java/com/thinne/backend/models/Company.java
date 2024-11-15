@@ -11,6 +11,7 @@ import lombok.Setter;
 public class Company {
     @Id
     @Column(name = "comp_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "about", length = 2000)
@@ -31,5 +32,6 @@ public class Company {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "address", nullable = false)
     private Address address;
-
+    @Column(name = "password")
+    private String password;
 }

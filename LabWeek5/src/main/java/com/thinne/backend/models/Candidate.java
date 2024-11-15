@@ -38,9 +38,9 @@ public class Candidate {
     private Address address;
     @Column(name = "password", nullable = false)
     private String password;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "candidate_skill",
-            joinColumns = @JoinColumn(name = "candidate_id"),
+            joinColumns = @JoinColumn(name = "can_id"),
             inverseJoinColumns = @JoinColumn(name = "skill_id"))
     private Set<Skill> skills;
     public Candidate(String fullName, LocalDate dob, Address add, String phone, String email) {

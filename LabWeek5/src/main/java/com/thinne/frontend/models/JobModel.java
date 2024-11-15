@@ -19,16 +19,24 @@ public class JobModel {
     private JobSkillRepository jobSkillRepository;
     @Autowired
     private JobRepository jobRepository;
-    public List<Skill> getAllSkills(){
+
+    public List<Skill> getAllSkills() {
         return skillRepository.findAll();
     }
-    public Skill getSkillById(Long id){
+
+    public Skill getSkillById(Long id) {
         return skillRepository.findSkillById(id);
     }
-    public void addJobSkill(JobSkill jobSkill){
+
+    public void addJobSkill(JobSkill jobSkill) {
         jobSkillRepository.save(jobSkill);
     }
-    public void addJob(Job job){
+
+    public void addJob(Job job) {
         jobRepository.save(job);
+    }
+
+    public List<Job> getRecommendedJobs(Long candidateId) {
+        return jobRepository.findRecommendedJobsForCandidate(candidateId);
     }
 }

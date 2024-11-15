@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @Entity
@@ -24,4 +27,9 @@ public class Job {
     @JoinColumn(name = "company")
     private Company company;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "job_skill",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private Set<Skill> skills;
 }

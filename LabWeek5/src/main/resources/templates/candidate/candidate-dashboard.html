@@ -8,21 +8,21 @@
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">Hello <span th:text="${candidate.getFullName()}"></span> Welcome Back!</h1>
+        <h1 class="text-3xl font-bold mb-8">Hello <span th:text="${candidate.getFullName()}"></span>, Welcome Back!</h1>
         
         <!-- Recommended Jobs Section -->
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4">Recommended Jobs</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Job Card Template - Will be populated by Thymeleaf -->
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-xl font-bold mb-2">Job Title</h3>
-                    <p class="text-gray-600 mb-4">Company Name</p>
+                <div th:each="job : ${recommendedJobs}" class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-2" th:text="${job.jobName}"></h3>
+                    <p class="text-gray-600 mb-4" th:text="${job.company.compName}"></p>
                     <div class="mb-4">
                         <h4 class="font-semibold mb-2">Required Skills:</h4>
                         <div class="flex flex-wrap gap-2">
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Skill 1</span>
-                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">Skill 2</span>
+                            <span th:each="skill : ${job.skills}"
+                                  class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm"
+                                  th:text="${skill.skillName}"></span>
                         </div>
                     </div>
                     <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
@@ -36,13 +36,12 @@
         <section class="mb-8">
             <h2 class="text-2xl font-bold mb-4">Recommended Skills to Learn</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Skill Card Template - Will be populated by Thymeleaf -->
-                <div class="bg-white rounded-lg shadow p-6">
-                    <h3 class="text-xl font-bold mb-2">Skill Name</h3>
-                    <p class="text-gray-600 mb-4">This skill appears in X job postings</p>
+                <div th:each="skill : ${recommendedSkills}" class="bg-white rounded-lg shadow p-6">
+                    <h3 class="text-xl font-bold mb-2" th:text="${skill.skillName}">Skill Name</h3>
+                    <p class="text-gray-600 mb-4">This skill appears in multiple job postings</p>
                     <div class="mb-4">
                         <h4 class="font-semibold mb-2">Why learn this?</h4>
-                        <p class="text-sm text-gray-600">Description of why this skill would be valuable</p>
+                        <p class="text-sm text-gray-600" th:text="${skill.skillDescription}">Description of why this skill would be valuable</p>
                     </div>
                     <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
                         Learn More
@@ -59,8 +58,8 @@
                     <div th:each="skill : ${candidateSkills}">
                         <div class="flex items-center justify-between border-b py-2">
                             <div>
-                                <h3 class="font-semibold" th:text="${skill.skill.skillName}"></h3>
-                                <p class="text-sm text-gray-600">Level: <span th:text="${skill.skillLevel}"></span></p>
+                                <h3 class="font-semibold" th:text="${skill.skillName}"></h3>
+                                <p class="text-sm text-gray-600">Level: <span th:text="${skill.type}"></span></p>
                             </div>
                             <button class="text-blue-500 hover:text-blue-600">Update</button>
                         </div>

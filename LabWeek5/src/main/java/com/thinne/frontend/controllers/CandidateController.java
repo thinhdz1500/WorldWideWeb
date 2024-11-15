@@ -1,7 +1,12 @@
 package com.thinne.frontend.controllers;
 
 import com.thinne.backend.models.Candidate;
+import com.thinne.backend.models.Job;
+import com.thinne.backend.models.Skill;
 import com.thinne.frontend.models.CandidateModel;
+import com.thinne.frontend.models.JobModel;
+import com.thinne.frontend.models.SkillModel;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -17,7 +22,11 @@ import java.util.stream.IntStream;
 public class CandidateController {
     @Autowired
     private CandidateModel candidateModel;
+    @Autowired
+    private JobModel jobModel;
 
+        @Autowired
+    private SkillModel skillModel;
     @RequestMapping("/")
     public ModelAndView showIndex() {
         ModelAndView mav = new ModelAndView("index");
@@ -53,22 +62,40 @@ public class CandidateController {
     }
 
     @RequestMapping(value = "/candidate/login", method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public ModelAndView login(@RequestParam("email") String email, @RequestParam("password") String password, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         Candidate candidate = candidateModel.findByEmail(email);
-        if (candidate != null) {
-            if (candidate.getPassword().equals(password)) {
-                mav.setViewName("candidate/candidate-dashboard");
-                mav.addObject("candidate", candidate);
-                mav.addObject("candidateSkills", candidateModel.getCandidateSkillByCandidate_Id(candidate.getId()));
-            } else {
-                mav.setViewName("candidate/candidate-login");
-                mav.addObject("message", "Incorrect account or password!");
-            }
-        } else {
+        if (candidate != null && candidate.getPassword().equals(password)) {
+            mav.setViewName("redirect:/candidate/candidate-dashboard");
+            mav.addObject("candidate", candidate);
+            session.setAttribute("candidate", candidate);
+        }
+        else {
             mav.setViewName("candidate/candidate-login");
             mav.addObject("message", "Incorrect account or password!");
         }
+        return mav;
+    }
+
+    @RequestMapping(value = "/candidate/candidate-dashboard")
+    public ModelAndView showCandidateDashboard(HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        if (candidate == null) {
+            return new ModelAndView("redirect:/candidate/login");
+        }
+
+        ModelAndView mav = new ModelAndView("candidate/candidate-dashboard");
+        mav.addObject("candidate", candidate);
+
+        List<Job> recommendedJobs = jobModel.getRecommendedJobs(candidate.getId());
+        mav.addObject("recommendedJobs", recommendedJobs);
+
+        List<Skill> candidateSkills = skillModel.getCandidateSkills(candidate.getId());
+        mav.addObject("candidateSkills", candidateSkills);
+
+        List<Skill> recommendedSkills = skillModel.getRecommendedSkills(candidate.getId());
+        mav.addObject("recommendedSkills", recommendedSkills);
+
         return mav;
     }
 }

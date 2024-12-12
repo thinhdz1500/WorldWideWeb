@@ -15,7 +15,7 @@ public interface CandidateRepository extends PagingAndSortingRepository<Candidat
 
     //    @Query("SELECT c FROM Candidate c")
     List<Candidate> findAll();
-
+    Candidate findById(Long id);
     Candidate findByEmail(String email);
 
 

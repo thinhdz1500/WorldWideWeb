@@ -109,7 +109,7 @@ public class CandidateController {
         List<Job> recommendedJobs = jobModel.getRecommendedJobs(candidate.getId());
         mav.addObject("recommendedJobs", recommendedJobs);
 
-        List<Skill> candidateSkills = skillModel.getCandidateSkills(candidate.getId());
+        List<CandidateSkill> candidateSkills = candidateSkillRepository.getCandidateSkillByCandidate_Id(candidate.getId());
         mav.addObject("candidateSkills", candidateSkills);
 
         List<Skill> recommendedSkills = skillModel.getRecommendedSkills(candidate.getId());
@@ -138,5 +138,23 @@ public class CandidateController {
                              Model model) {
         model.addAttribute("jobs", jobModel.searchJobs(keyword));
         return "candidate/job-search";
+    }
+
+    @PostMapping("/candidate/skills/add")
+    public String addSkill(@RequestParam(required = false) Long skillId,
+                           @RequestParam(required = false) String newSkillName,
+                           @RequestParam(required = false) String newSkillDescription,
+                           @RequestParam(required = false) SkillType newSkillType,
+                           @RequestParam SkillLevel skillLevel,
+                           HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+
+        if (skillId != null) {
+            skillModel.addCandidateSkill(candidate.getId(), skillId, skillLevel);
+        } else if (newSkillName != null && !newSkillName.isEmpty()) {
+            skillModel.addNewSkill(candidate.getId(), newSkillName, newSkillDescription, newSkillType, skillLevel);
+        }
+
+        return "redirect:/candidate/candidate-dashboard";
     }
 }

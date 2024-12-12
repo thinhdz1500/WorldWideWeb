@@ -88,12 +88,12 @@
         </div>
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div th:each="skill : ${candidateSkills}" class="flex items-center justify-between border-b py-2">
+                <div th:each="candidateSkill : ${candidateSkills}" class="flex items-center justify-between border-b py-2">
                     <div>
-                        <h3 class="font-semibold" th:text="${skill.skillName}"></h3>
-                        <p class="text-sm text-gray-600">Level: <span th:text="${skill.type}"></span></p>
+                        <h3 class="font-semibold" th:text="${candidateSkill.skill.skillName}"></h3>
+                        <p class="text-sm text-gray-600">Level: <span th:text="${candidateSkill.skillLevel}"></span></p>
                     </div>
-                    <button th:onclick="'openUpdateSkillModal(' + ${skill.id} + ')'"
+                    <button th:onclick="'openUpdateSkillModal(' + ${candidateSkill.skill.id} + ')'"
                             class="text-blue-500 hover:text-blue-600">
                         Update
                     </button>
@@ -139,7 +139,9 @@
                     <option value="BEGINNER">Beginner</option>
                     <option value="INTERMEDIATE">Intermediate</option>
                     <option value="ADVANCED">Advanced</option>
-                    <option value="EXPERT">Expert</option>
+                    <option value="MASTER">Master</option>
+                    <option value="PROFESSIONAL">Professional</option>
+
                 </select>
             </div>
             <div class="flex justify-end gap-2">
@@ -157,7 +159,74 @@
     </div>
 </div>
 
+<!-- Add Skill Modal -->
+<div id="addSkillModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md">
+        <h3 class="text-xl font-bold mb-4">Add Skill</h3>
+        <form id="addSkillForm" th:action="@{/candidate/skills/add}" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillSelect">
+                    Select Existing Skill
+                </label>
+                <select id="skillSelect" name="skillId" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    <option value="">-- Select a skill --</option>
+                    <option th:each="skill : ${recommendedSkills}" th:value="${skill.id}" th:text="${skill.skillName}"></option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillName">
+                    Skill Name
+                </label>
+                <input type="text" id="skillName" name="skillName" placeholder="Enter skill name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillDescription">
+                    Skill Description
+                </label>
+                <textarea id="skillDescription" name="skillDescription" placeholder="Enter skill description" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="newSkillType">
+                    Skill Type
+                </label>
+                <select id="newSkillType" name="newSkillType" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    <option value="TECHNICAL_SKILL">Technical Skill</option>
+                    <option value="SOFT_SKILL">Soft Skill</option>
+                    <option value="UNSPECIFIC">Unspecific</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillLevel">
+                    Skill Level
+                </label>
+                <select id="skillLevel" name="skillLevel" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                    <option value="BEGINNER">Beginner</option>
+                    <option value="INTERMEDIATE">Intermediate</option>
+                    <option value="ADVANCED">Advanced</option>
+                    <option value="MASTER">Master</option>
+                    <option value="PROFESSIONAL">Professional</option>
+                </select>
+            </div>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeAddSkillModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    Cancel
+                </button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    Add Skill
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
+    function openAddSkillModal() {
+        document.getElementById('addSkillModal').classList.remove('hidden');
+    }
+
+    function closeAddSkillModal() {
+        document.getElementById('addSkillModal').classList.add('hidden');
+    }
     function openUpdateSkillModal(skillId) {
         document.getElementById('skillId').value = skillId;
         document.getElementById('skillModal').classList.remove('hidden');
@@ -165,11 +234,6 @@
 
     function closeSkillModal() {
         document.getElementById('skillModal').classList.add('hidden');
-    }
-
-    function openAddSkillModal() {
-        // Redirect to skill selection page
-        window.location.href = '/candidate/skills/add';
     }
 </script>
 </body>

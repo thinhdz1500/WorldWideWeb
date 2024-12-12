@@ -127,12 +127,6 @@ public class CandidateController {
         return "redirect:/candidate/candidate-dashboard";
     }
 
-    @GetMapping("/candidate/skills/add")
-    public String showAddSkillPage(Model model) {
-        model.addAttribute("availableSkills", skillModel.getAvailableSkills());
-        return "candidate/add-skill";
-    }
-
     @GetMapping("/jobs/search")
     public String searchJobs(@RequestParam(required = false) String keyword,
                              Model model) {
@@ -142,8 +136,8 @@ public class CandidateController {
 
     @PostMapping("/candidate/skills/add")
     public String addSkill(@RequestParam(required = false) Long skillId,
-                           @RequestParam(required = false) String newSkillName,
-                           @RequestParam(required = false) String newSkillDescription,
+                           @RequestParam(required = false) String skillName,
+                           @RequestParam(required = false) String skillDescription,
                            @RequestParam(required = false) SkillType newSkillType,
                            @RequestParam SkillLevel skillLevel,
                            HttpSession session) {
@@ -151,8 +145,8 @@ public class CandidateController {
 
         if (skillId != null) {
             skillModel.addCandidateSkill(candidate.getId(), skillId, skillLevel);
-        } else if (newSkillName != null && !newSkillName.isEmpty()) {
-            skillModel.addNewSkill(candidate.getId(), newSkillName, newSkillDescription, newSkillType, skillLevel);
+        } else if (skillName != null && !skillName.isEmpty()) {
+            skillModel.addNewSkill(candidate.getId(), skillName, skillDescription, newSkillType, skillLevel);
         }
 
         return "redirect:/candidate/candidate-dashboard";

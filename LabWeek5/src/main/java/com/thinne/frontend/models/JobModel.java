@@ -39,4 +39,10 @@ public class JobModel {
     public List<Job> getRecommendedJobs(Long candidateId) {
         return jobRepository.findRecommendedJobsForCandidate(candidateId);
     }
+    public List<Job> searchJobs(String keyword) {
+        if (keyword == null) {
+            return jobRepository.findAll();
+        }
+        return jobRepository.searchJobs(keyword);
+    }
 }

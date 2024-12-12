@@ -1,8 +1,8 @@
 package com.thinne.frontend.controllers;
 
-import com.thinne.backend.models.Candidate;
-import com.thinne.backend.models.Job;
-import com.thinne.backend.models.Skill;
+import com.thinne.backend.models.*;
+import com.thinne.backend.repositories.CandidateSkillRepository;
+import com.thinne.backend.repositories.SkillRepository;
 import com.thinne.frontend.models.CandidateModel;
 import com.thinne.frontend.models.JobModel;
 import com.thinne.frontend.models.SkillModel;
@@ -27,6 +27,11 @@ public class CandidateController {
 
         @Autowired
     private SkillModel skillModel;
+    @Autowired
+    private CandidateSkillRepository candidateSkillRepository;
+    @Autowired
+    private SkillRepository skillRepository;
+
     @RequestMapping("/")
     public ModelAndView showIndex() {
         ModelAndView mav = new ModelAndView("index");
@@ -77,6 +82,20 @@ public class CandidateController {
         return mav;
     }
 
+
+
+    public void updateCandidateSkill(Long candidateId, Long skillId, String skillLevel) {
+        CandidateSkill candidateSkill = candidateSkillRepository
+                .findByCandidateIdAndSkillId(candidateId, skillId)
+                .orElseThrow(() -> new RuntimeException("Skill not found"));
+
+        candidateSkill.setSkillLevel(SkillLevel.valueOf(skillLevel));
+        candidateSkillRepository.save(candidateSkill);
+    }
+
+    public List<Skill> getAvailableSkills() {
+        return skillRepository.findAll();
+    }
     @RequestMapping(value = "/candidate/candidate-dashboard")
     public ModelAndView showCandidateDashboard(HttpSession session) {
         Candidate candidate = (Candidate) session.getAttribute("candidate");
@@ -97,5 +116,27 @@ public class CandidateController {
         mav.addObject("recommendedSkills", recommendedSkills);
 
         return mav;
+    }
+
+    @PostMapping("/candidate/skills/update")
+    public String updateSkill(@RequestParam Long skillId,
+                              @RequestParam String skillLevel,
+                              HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        skillModel.updateCandidateSkill(candidate.getId(), skillId, skillLevel);
+        return "redirect:/candidate/candidate-dashboard";
+    }
+
+    @GetMapping("/candidate/skills/add")
+    public String showAddSkillPage(Model model) {
+        model.addAttribute("availableSkills", skillModel.getAvailableSkills());
+        return "candidate/add-skill";
+    }
+
+    @GetMapping("/jobs/search")
+    public String searchJobs(@RequestParam(required = false) String keyword,
+                             Model model) {
+        model.addAttribute("jobs", jobModel.searchJobs(keyword));
+        return "candidate/job-search";
     }
 }

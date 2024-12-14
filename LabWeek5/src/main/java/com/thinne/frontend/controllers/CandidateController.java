@@ -9,6 +9,7 @@ import com.thinne.frontend.models.SkillModel;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class CandidateController {
     @Autowired
     private JobModel jobModel;
 
-        @Autowired
+    @Autowired
     private SkillModel skillModel;
     @Autowired
     private CandidateSkillRepository candidateSkillRepository;
@@ -74,14 +75,12 @@ public class CandidateController {
             mav.setViewName("redirect:/candidate/candidate-dashboard");
             mav.addObject("candidate", candidate);
             session.setAttribute("candidate", candidate);
-        }
-        else {
+        } else {
             mav.setViewName("candidate/candidate-login");
             mav.addObject("message", "Incorrect account or password!");
         }
         return mav;
     }
-
 
 
     public void updateCandidateSkill(Long candidateId, Long skillId, String skillLevel) {
@@ -96,8 +95,9 @@ public class CandidateController {
     public List<Skill> getAvailableSkills() {
         return skillRepository.findAll();
     }
+
     @RequestMapping(value = "/candidate/candidate-dashboard")
-    public ModelAndView showCandidateDashboard(HttpSession session) {
+    public ModelAndView showCandidateDashboard(HttpSession session, @RequestParam(required = false) String keyword) {
         Candidate candidate = (Candidate) session.getAttribute("candidate");
         if (candidate == null) {
             return new ModelAndView("redirect:/candidate/login");
@@ -114,6 +114,14 @@ public class CandidateController {
 
         List<Skill> recommendedSkills = skillModel.getRecommendedSkills(candidate.getId());
         mav.addObject("recommendedSkills", recommendedSkills);
+
+        // Add job search functionality
+        List<Job> searchResults = null;
+        if (keyword != null && !keyword.isEmpty()) {
+            searchResults = jobModel.searchJobs(keyword);
+        }
+        mav.addObject("searchResults", searchResults);
+        mav.addObject("keyword", keyword);
 
         return mav;
     }

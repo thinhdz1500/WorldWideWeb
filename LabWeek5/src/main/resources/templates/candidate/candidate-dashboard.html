@@ -27,21 +27,33 @@
 </nav>
 
 <div class="container mx-auto px-4 py-8">
-    <!-- Search Section -->
-    <div class="mb-8 bg-gray-900 rounded-lg p-8 text-white">
-        <h1 class="text-3xl font-bold mb-6">Find Your Dream Job Here</h1>
-        <form action="/jobs/search" method="GET" class="flex gap-4">
-            <div class="flex-1">
-                <input type="text"
-                       name="keyword"
-                       placeholder="Job title or keyword"
-                       class="w-full px-4 py-2 rounded-lg text-gray-900">
-            </div>
-            <button type="submit"
-                    class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+    <!-- Job Search Section -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Job Search</h2>
+        <form th:action="@{/candidate/candidate-dashboard}" method="get" class="flex gap-4">
+            <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Enter job title or keywords"
+                   class="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
                 Search
             </button>
         </form>
+    </div>
+
+    <!-- Job Search Results -->
+    <div th:if="${searchResults != null}">
+        <h3 class="text-xl font-semibold mb-4">Search Results</h3>
+        <div th:if="${searchResults.isEmpty()}" class="text-gray-500">
+            No jobs found matching your search criteria.
+        </div>
+        <div th:unless="${searchResults.isEmpty()}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div th:each="job : ${searchResults}" class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-2" th:text="${job.jobName}">Job Title</h3>
+                <p class="text-gray-600 mb-4" th:text="${job.company.compName}">Company Name</p>
+                <p class="text-sm text-gray-500 mb-2" th:text="${job.company.address.street}">Location</p>
+                <p class="text-sm mb-4" th:text="${#strings.abbreviate(job.jobDesc, 100)}">Job description...</p>
+                <a th:href="@{'/jobs/' + ${job.id}}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Details</a>
+            </div>
+        </div>
     </div>
 
     <!-- Recommended Jobs Section -->
@@ -165,7 +177,7 @@
         <h3 class="text-xl font-bold mb-4">Add Skill</h3>
         <form id="addSkillForm" th:action="@{/candidate/skills/add}" method="POST">
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="skillSelect">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="addSkillForm">
                     Select Existing Skill
                 </label>
 <!--                <select id="skillSelect" name="skillId" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">-->
@@ -235,6 +247,8 @@
     function closeSkillModal() {
         document.getElementById('skillModal').classList.add('hidden');
     }
+
+
 </script>
 </body>
 </html>

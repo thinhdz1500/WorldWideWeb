@@ -15,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -158,5 +160,80 @@ public class CandidateController {
         }
 
         return "redirect:/candidate/candidate-dashboard";
+    }
+
+    //profile
+    @GetMapping("/candidate/profile")
+    public String showProfile(Model model, HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        if (candidate == null) {
+            return "redirect:/candidate/login";
+        }
+        model.addAttribute("candidate", candidate);
+        List<CandidateSkill> candidateSkills = candidateSkillRepository.getCandidateSkillByCandidate_Id(candidate.getId());
+        model.addAttribute("candidateSkills", candidateSkills);
+        return "candidate/candidate-profile";
+    }
+
+//    @PostMapping("/update-profile")
+//    @ResponseBody
+//    public ResponseEntity<?> updateProfile(@RequestParam Map<String, String> params, HttpSession session) {
+//        Candidate candidate = (Candidate) session.getAttribute("candidate");
+//        if (candidate == null) {
+//            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Not logged in"));
+//        }
+//
+//        candidate.setFullName(params.get("fullName"));
+//        candidate.setEmail(params.get("email"));
+//        candidate.setPhone(params.get("phone"));
+//        candidate.setDob(LocalDate.parse(params.get("dob")));
+//
+//        Address address = candidate.getAddress();
+//        if (address == null) {
+//            address = new Address();
+//            candidate.setAddress(address);
+//        }
+//        address.setStreet(params.get("address"));
+//
+//        candidateModel.updateCandidate(candidate);
+//        session.setAttribute("candidate", candidate);
+//
+//        return ResponseEntity.ok(Map.of("success", true));
+//    }
+
+    @PostMapping("/add-skill")
+    @ResponseBody
+    public ResponseEntity<?> addSkill(@RequestParam String skillName, @RequestParam SkillLevel skillLevel, HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        if (candidate == null) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Not logged in"));
+        }
+
+        skillModel.addCandidateSkill(candidate.getId(), skillName, skillLevel);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    @PostMapping("/remove-skill/{skillId}")
+    @ResponseBody
+    public ResponseEntity<?> removeSkill(@PathVariable Long skillId, HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        if (candidate == null) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Not logged in"));
+        }
+
+        skillModel.removeCandidateSkill(candidate.getId(), skillId);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    @PostMapping("/update-skill-level/{skillId}")
+    @ResponseBody
+    public ResponseEntity<?> updateSkillLevel(@PathVariable Long skillId, @RequestParam SkillLevel skillLevel, HttpSession session) {
+        Candidate candidate = (Candidate) session.getAttribute("candidate");
+        if (candidate == null) {
+            return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Not logged in"));
+        }
+
+        skillModel.updateCandidateSkillLevel(candidate.getId(), skillId, skillLevel);
+        return ResponseEntity.ok(Map.of("success", true));
     }
 }

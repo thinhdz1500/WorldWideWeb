@@ -1,6 +1,7 @@
 package com.thinne.backend.repositories;
 
 import com.thinne.backend.models.CandidateSkill;
+import com.thinne.backend.models.CandidateSkillId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +26,6 @@ public interface CandidateSkillRepository extends JpaRepository<CandidateSkill,L
 
     @Query("SELECT cs FROM CandidateSkill cs WHERE cs.candidate.id = :candidateId AND cs.skill.id = :skillId")
     Optional<CandidateSkill> findByCandidateIdAndSkillId(@Param("candidateId") Long candidateId, @Param("skillId") Long skillId);
+    void deleteCandidateSkillById(CandidateSkillId id);
+    Optional<CandidateSkill> findById(CandidateSkillId id);
 }

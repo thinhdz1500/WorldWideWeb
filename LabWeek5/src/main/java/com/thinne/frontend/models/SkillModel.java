@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class SkillModel {
@@ -67,4 +68,34 @@ public class SkillModel {
 
         candidateSkillRepository.save(candidateSkill);
     }
+
+    public void addCandidateSkill(Long candidateId, String skillName, SkillLevel skillLevel) {
+        Skill skill = skillRepository.findBySkillName(skillName);
+        if (skill == null) {
+            skill = new Skill();
+            skill.setSkillName(skillName);
+            skillRepository.save(skill);
+        }
+
+        CandidateSkill candidateSkill = new CandidateSkill();
+        candidateSkill.setId(new CandidateSkillId(candidateId, skill.getId()));
+        candidateSkill.setSkillLevel(skillLevel);
+        candidateSkillRepository.save(candidateSkill);
+    }
+
+    public void removeCandidateSkill(Long candidateId, Long skillId) {
+        CandidateSkillId id = new CandidateSkillId(candidateId, skillId);
+        candidateSkillRepository.deleteCandidateSkillById(id);
+    }
+
+    public void updateCandidateSkillLevel(Long candidateId, Long skillId, SkillLevel skillLevel) {
+        CandidateSkillId id = new CandidateSkillId(candidateId, skillId);
+        Optional<CandidateSkill> candidateSkillOpt = candidateSkillRepository.findById(id);
+        if (candidateSkillOpt.isPresent()) {
+            CandidateSkill candidateSkill = candidateSkillOpt.get();
+            candidateSkill.setSkillLevel(skillLevel);
+            candidateSkillRepository.save(candidateSkill);
+        }
+    }
+
 }

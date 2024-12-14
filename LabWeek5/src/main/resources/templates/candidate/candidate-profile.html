@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Candidate Profile</h1>
+
+    <!-- Personal Information Form -->
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-8">
+        <h2 class="text-2xl font-bold mb-4">Personal Information</h2>
+        <form id="personalInfoForm" th:action="@{/candidate/update-profile}" method="post">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="fullName">
+                        Full Name
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                           id="fullName" name="fullName" type="text" th:value="${candidate.fullName}" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                        Email
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                           id="email" name="email" type="email" th:value="${candidate.email}" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">
+                        Phone
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                           id="phone" name="phone" type="tel" th:value="${candidate.phone}" required>
+                </div>
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="dob">
+                        Date of Birth
+                    </label>
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                           id="dob" name="dob" type="date" th:value="${candidate.dob}" required>
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="address">
+                    Address
+                </label>
+                <!--                    <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"-->
+                <!--                              id="address" name="address" rows="3" th:text="${candidate.address.street}" required></textarea>-->
+            </div>
+            <div class="mt-6">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">
+                    Update Personal Information
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Skills Management -->
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+        <h2 class="text-2xl font-bold mb-4">Skills Management</h2>
+        <div id="skillsList">
+            <!-- Existing skills will be populated here -->
+            <div th:each="candidateSkill : ${candidateSkills}" class="mb-4 p-4 border rounded">
+                <div class="flex justify-between items-center">
+                    <span th:text="${candidateSkill.skill.skillName}" class="font-bold"></span>
+                    <div>
+                        <select th:name="'skillLevel-' + ${candidateSkill.skill.id}" class="mr-2 p-2 border rounded">
+                            <option th:each="level : ${T(com.thinne.backend.models.SkillLevel).values()}"
+                                    th:value="${level}"
+                                    th:text="${level}"
+                                    th:selected="${level == candidateSkill.skillLevel}">
+                            </option>
+                        </select>
+                        <button th:onclick="'removeSkill(' + ${candidateSkill.skill.id} + ')'"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <h3 class="text-xl font-bold mb-2">Add New Skill</h3>
+            <form id="addSkillForm" th:action="@{/candidate/add-skill}" method="post">
+                <div class="flex items-center">
+                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                           id="newSkillName" name="skillName" type="text" placeholder="Skill Name" required>
+                    <select class="shadow border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                            id="newSkillLevel" name="skillLevel" required>
+                        <option value="">Select Level</option>
+                        <option th:each="level : ${T(com.thinne.backend.models.SkillLevel).values()}"
+                                th:value="${level}"
+                                th:text="${level}">
+                        </option>
+                    </select>
+                    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            type="submit">
+                        Add Skill
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    function removeSkill(skillId) {
+        if (confirm('Are you sure you want to remove this skill?')) {
+            fetch(`/candidate/remove-skill/${skillId}`, {method: 'POST'})
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        alert('Failed to remove skill. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    }
+
+    document.getElementById('personalInfoForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Personal information updated successfully!');
+                } else {
+                    alert('Failed to update personal information. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+    });
+
+    document.getElementById('addSkillForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Failed to add skill. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            });
+    });
+
+    document.querySelectorAll('[name^="skillLevel-"]').forEach(select => {
+        select.addEventListener('change', function () {
+            const skillId = this.name.split('-')[1];
+            const newLevel = this.value;
+            fetch(`/candidate/update-skill-level/${skillId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `skillLevel=${newLevel}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.success) {
+                        alert('Failed to update skill level. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        });
+    });
+</script>
+</body>
+</html>

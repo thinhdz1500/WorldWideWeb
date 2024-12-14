@@ -18,5 +18,5 @@ public interface SkillRepository extends JpaRepository<Skill,Long> {
             "(SELECT cs.skill FROM CandidateSkill cs WHERE cs.candidate.id = :candidateId) " +
             "AND s IN (SELECT js.skill FROM JobSkill js)")
     List<Skill> findRecommendedSkillsForCandidate(@Param("candidateId") Long candidateId);
-
+    Skill findBySkillName(String skillName);
 }

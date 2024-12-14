@@ -14,7 +14,6 @@
 ## Tính Năng
 - **Xác Thực Người Dùng**
     - Cổng đăng nhập riêng biệt cho ứng viên và công ty
-    - Xử lý mật khẩu an toàn
     - Quản lý phiên làm việc
 
 - **Tính Năng Cho Ứng Viên**
@@ -52,9 +51,9 @@ git clone https://github.com/thinhdz1500/WorldWideWeb.git
 ```
 ## cấu hình cơ sở dữ liệu
 ```bash
-spring.datasource.url=jdbc:mysql://localhost:3306/your_database
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+  spring.datasource.url=jdbc:mysql://localhost:3306/your_database
+  spring.datasource.username=your_username
+  spring.datasource.password=your_password
 ```
 ## cấu hình email trong application.properties
 ```bash
@@ -198,8 +197,8 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 - Email thông báo lời mời phỏng vấn
 ![img_9.png](img_9.png)
 
-## Video Demo
-
+### Trang đăng công việc
+![img_12.png](img_12.png)
 
 
 ## Tác giả, liên hệ

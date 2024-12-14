@@ -149,30 +149,11 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 Ứng dụng sẽ chạy tại địa chỉ `http://localhost:8080`
 
-I'll write the README in Vietnamese, introducing the interfaces and functionalities of the project. I'll also include notes for you about where to add images and video demos. Here's the updated README:
 
-```markdown project="WorldWideWeb" file="README.md"
-...
-```
 
-WorldWideWeb/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/thinne/
-│   │   │       ├── backend/
-│   │   │       │   ├── models/
-│   │   │       │   ├── repositories/
-│   │   │       │   └── services/
-│   │   │       └── frontend/
-│   │   │           ├── controllers/
-│   │   │           └── models/
-│   │   └── resources/
-│   │       ├── static/
-│   │       └── templates/
-└── build.gradle
 
-```plaintext
+## Cấu trúc dự án
+![img_10.png](img_10.png)
 
 ## Cài Đặt và Chạy Ứng Dụng
 

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${job.jobName} + ' - Job Details'">Job Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<!-- Navigation -->
+<nav class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center">
+                <a href="/" class="text-2xl font-bold">JobPortal</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="/jobs/search" class="hover:text-blue-400">Find Jobs</a>
+                <a href="/candidate/profile" class="hover:text-blue-400">Profile</a>
+                <div class="relative">
+                    <!-- Removed avatar image -->
+                    <span class="text-white" th:text="${candidate.fullName}">User</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="md:col-span-2">
+                <!-- Header Section -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2" th:text="${job.jobName}">Job Title</h1>
+                            <p class="text-gray-600 mb-4" th:text="${job.company.compName}">Company Name</p>
+                            <div class="flex items-center gap-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    Full-time
+                                </span>
+                                <span class="text-gray-600" th:text="${job.company.address.city}">Location</span>
+                            </div>
+                        </div>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg">
+                            Apply for this job
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Overview Section -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4">Overview</h2>
+                    <p class="text-gray-600 whitespace-pre-line" th:text="${job.jobDesc}">Job description here...</p>
+                </div>
+
+                <!-- Required Skills Section -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <h2 class="text-xl font-bold mb-4">Required Skills</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <th:block th:each="skill : ${job.skills}">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                                  th:text="${skill.skillName}">Skill</span>
+                        </th:block>
+                    </div>
+                </div>
+
+                <!-- Company Information -->
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-bold mb-4">About the Company</h2>
+                    <p class="text-gray-600 mb-4" th:text="${job.company.about}">Company description...</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">Contact Information</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                                    </svg>
+                                    <span th:text="${job.company.email}">email@company.com</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                                    </svg>
+                                    <span th:text="${job.company.phone}">+1234567890</span>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M4.083 9h1.946c.089-1.546.383-2.97.837-4.118A6.004 6.004 0 004.083 9zM10 2a8 8 0 100 16 8 8 0 000-16zm0 2c-.076 0-.232.032-.465.262-.238.234-.497.623-.737 1.182-.389.907-.673 2.142-.766 3.556h3.936c-.093-1.414-.377-2.649-.766-3.556-.24-.56-.5-.948-.737-1.182C10.232 4.032 10.076 4 10 4zm3.971 5c-.089-1.546-.383-2.97-.837-4.118A6.004 6.004 0 0115.917 9h-1.946zm-2.003 2H8.032c.093 1.414.377 2.649.766 3.556.24.56.5.948.737 1.182.233.23.389.262.465.262.076 0 .232-.032.465-.262.238-.234.498-.623.737-1.182.389-.907.673-2.142.766-3.556zm1.166 4.118c.454-1.147.748-2.572.837-4.118h1.946a6.004 6.004 0 01-2.783 4.118zm-6.268 0C6.412 13.97 6.118 12.546 6.03 11H4.083a6.004 6.004 0 002.783 4.118z" clip-rule="evenodd" />
+                                    </svg>
+                                    <a href="#" class="text-blue-600 hover:text-blue-800" th:text="${job.company.webUrl}" th:href="${job.company.webUrl}">website.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-700 mb-2">Location</h3>
+                            <address class="text-gray-600 not-italic">
+                                <p th:text="${job.company.address.street + ' ' + job.company.address.number}">Street Address</p>
+                                <p th:text="${job.company.address.city + ' ' + job.company.address.zipcode}">City, ZIP</p>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+                    <h2 class="text-xl font-bold mb-4">Job Summary</h2>
+                    <dl class="space-y-4">
+                        <div>
+                            <dt class="text-gray-500 text-sm">Posted Date</dt>
+                            <dd class="font-medium">December 14, 2023</dd>
+                        </div>
+                        <div>
+                            <dt class="text-gray-500 text-sm">Job Type</dt>
+                            <dd class="font-medium">Full-time</dd>
+                        </div>
+                        <div>
+                            <dt class="text-gray-500 text-sm">Location</dt>
+                            <dd class="font-medium" th:text="${job.company.address.city}">City</dd>
+                        </div>
+                        <div>
+                            <dt class="text-gray-500 text-sm">Required Experience</dt>
+                            <dd class="font-medium">2+ years</dd>
+                        </div>
+                    </dl>
+                    <div class="mt-6">
+                        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg">
+                            Apply for this job
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        // Add any necessary JavaScript functionality here
+        document.addEventListener('DOMContentLoaded', function() {
+            const applyButtons = document.querySelectorAll('button');
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobId = /*[[${job.id}]]*/ null;
+                    window.location.href = `/candidate/apply-job/${jobId}`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

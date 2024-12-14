@@ -15,7 +15,7 @@
                 <a href="/" class="text-2xl font-bold">JobPortal</a>
             </div>
             <div class="flex items-center gap-4">
-                <a href="/jobs/search" class="hover:text-blue-400">Find Jobs</a>
+                <a href="/candidate/candidate-dashboard" class="hover:text-blue-400">Find Jobs</a>
                 <a href="/candidate/profile" class="hover:text-blue-400">Profile</a>
                 <div class="relative">
                     <!-- Removed avatar image -->
@@ -31,9 +31,11 @@
     <div class="mb-8">
         <h2 class="text-2xl font-semibold mb-4">Job Search</h2>
         <form th:action="@{/candidate/candidate-dashboard}" method="get" class="flex gap-4">
-            <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Enter job title or keywords"
+            <input type="text" id="keyword" name="keyword" th:value="${keyword}"
+                   placeholder="Enter job title or keywords"
                    class="flex-grow px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
+            <button type="submit"
+                    class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300">
                 Search
             </button>
         </form>
@@ -51,7 +53,9 @@
                 <p class="text-gray-600 mb-4" th:text="${job.company.compName}">Company Name</p>
                 <p class="text-sm text-gray-500 mb-2" th:text="${job.company.address.street}">Location</p>
                 <p class="text-sm mb-4" th:text="${#strings.abbreviate(job.jobDesc, 100)}">Job description...</p>
-                <a th:href="@{'/jobs/' + ${job.id}}" class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View Details</a>
+                <a th:href="@{'/jobs/' + ${job.id}}"
+                   class="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">View
+                    Details</a>
             </div>
         </div>
     </div>
@@ -67,9 +71,9 @@
                         <h3 class="text-xl font-bold" th:text="${job.jobName}"></h3>
                         <p class="text-gray-600" th:text="${job.company.compName}"></p>
                     </div>
-<!--                    <span th:if="${job.salary}"-->
-<!--                          class="text-green-600 font-semibold"-->
-<!--                          th:text="${'$' + job.salary + '/hr'}"></span>-->
+                    <!--                    <span th:if="${job.salary}"-->
+                    <!--                          class="text-green-600 font-semibold"-->
+                    <!--                          th:text="${'$' + job.salary + '/hr'}"></span>-->
                 </div>
                 <div class="mb-4">
                     <div class="flex flex-wrap gap-2">
@@ -80,10 +84,8 @@
                 </div>
                 <div class="flex justify-between items-center">
                     <span th:text="${job.jobDesc}" class="text-gray-600"></span>
-<!--                    <a th:href="@{'/jobs/' + ${job.id}}"-->
-<!--                       class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">-->
-<!--                        View Details-->
-<!--                    </a>-->
+                    <a th:href="@{'/jobs/' + ${job.id}}"
+                       class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Details</a>
                 </div>
             </div>
         </div>
@@ -100,7 +102,8 @@
         </div>
         <div class="bg-white rounded-lg shadow-sm p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div th:each="candidateSkill : ${candidateSkills}" class="flex items-center justify-between border-b py-2">
+                <div th:each="candidateSkill : ${candidateSkills}"
+                     class="flex items-center justify-between border-b py-2">
                     <div>
                         <h3 class="font-semibold" th:text="${candidateSkill.skill.skillName}"></h3>
                         <p class="text-sm text-gray-600">Level: <span th:text="${candidateSkill.skillLevel}"></span></p>
@@ -180,28 +183,32 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="addSkillForm">
                     Select Existing Skill
                 </label>
-<!--                <select id="skillSelect" name="skillId" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">-->
-<!--                    <option value="">&#45;&#45; Select a skill &#45;&#45;</option>-->
-<!--                    <option th:each="skill : ${recommendedSkills}" th:value="${skill.id}" th:text="${skill.skillName}"></option>-->
-<!--                </select>-->
+                <!--                <select id="skillSelect" name="skillId" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">-->
+                <!--                    <option value="">&#45;&#45; Select a skill &#45;&#45;</option>-->
+                <!--                    <option th:each="skill : ${recommendedSkills}" th:value="${skill.id}" th:text="${skill.skillName}"></option>-->
+                <!--                </select>-->
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="skillName">
                     Skill Name
                 </label>
-                <input type="text" id="skillName" name="skillName" placeholder="Enter skill name" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                <input type="text" id="skillName" name="skillName" placeholder="Enter skill name"
+                       class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="skillDescription">
                     Skill Description
                 </label>
-                <textarea id="skillDescription" name="skillDescription" placeholder="Enter skill description" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="3"></textarea>
+                <textarea id="skillDescription" name="skillDescription" placeholder="Enter skill description"
+                          class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+                          rows="3"></textarea>
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="newSkillType">
                     Skill Type
                 </label>
-                <select id="newSkillType" name="newSkillType" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                <select id="newSkillType" name="newSkillType"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
                     <option value="TECHNICAL_SKILL">Technical Skill</option>
                     <option value="SOFT_SKILL">Soft Skill</option>
                     <option value="UNSPECIFIC">Unspecific</option>
@@ -211,7 +218,8 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="skillLevel">
                     Skill Level
                 </label>
-                <select id="skillLevel" name="skillLevel" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                <select id="skillLevel" name="skillLevel"
+                        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
                     <option value="BEGINNER">Beginner</option>
                     <option value="INTERMEDIATE">Intermediate</option>
                     <option value="ADVANCED">Advanced</option>
@@ -220,7 +228,8 @@
                 </select>
             </div>
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeAddSkillModal()" class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                <button type="button" onclick="closeAddSkillModal()"
+                        class="px-4 py-2 text-gray-600 hover:text-gray-800">
                     Cancel
                 </button>
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
@@ -239,6 +248,7 @@
     function closeAddSkillModal() {
         document.getElementById('addSkillModal').classList.add('hidden');
     }
+
     function openUpdateSkillModal(skillId) {
         document.getElementById('skillId').value = skillId;
         document.getElementById('skillModal').classList.remove('hidden');

@@ -1,4 +1,4 @@
-# 🗓 **Lab Week 5**
+# **recruitment website**
 
 ## Thông tin
 #### **Trường**: Đại học Công nghiệp TP Hồ Chí Minh - IUH
@@ -42,25 +42,8 @@
     - TailwindCSS
     - JavaScript
 
-## Cấu Trúc Dự Án
-WorldWideWeb/
-
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/thinne/
-│   │   │       ├── backend/
-│   │   │       │   ├── models/
-│   │   │       │   ├── repositories/
-│   │   │       │   └── services/
-│   │   │       └── frontend/
-│   │   │           ├── controllers/
-│   │   │           └── models/
-│   │   └── resources/
-│   │       ├── static/
-│   │       └── templates/
-└── build.gradle
-
+## Cấu trúc dự án
+![img_10.png](img_10.png)
 ## Cài Đặt và Chạy Ứng Dụng
 
 1. Clone repository:
@@ -87,31 +70,8 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 ./gradlew bootRun
 ```
 Ứng dụng sẽ chạy tại địa chỉ `http://localhost:8080`
-I'll write the README in Vietnamese, introducing the interfaces and functionalities of the project. I'll also include notes for you about where to add images and video demos. Here's the updated README:
-
-```markdown project="WorldWideWeb" file="README.md"
-...
-```
-
-WorldWideWeb/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── com/thinne/
-│   │   │       ├── backend/
-│   │   │       │   ├── models/
-│   │   │       │   ├── repositories/
-│   │   │       │   └── services/
-│   │   │       └── frontend/
-│   │   │           ├── controllers/
-│   │   │           └── models/
-│   │   └── resources/
-│   │       ├── static/
-│   │       └── templates/
-└── build.gradle
-
-```plaintext
-
+## Cấu trúc dự án
+![img_10.png](img_10.png)
 ## Cài Đặt và Chạy Ứng Dụng
 
 1. Clone repository:
@@ -152,8 +112,7 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 
 
-## Cấu trúc dự án
-![img_10.png](img_10.png)
+
 
 ## Cài Đặt và Chạy Ứng Dụng
 
@@ -220,7 +179,8 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 ![img_5.png](img_5.png)
 - Tìm kiếm công việc theo từ khóa, kỹ năng, và địa điểm
 - Hiển thị danh sách công việc phù hợp
-
+### Trang chi tiết công việc
+![img_11.png](img_11.png)
 
 ### Trang Quản Lý Công Ty
 
@@ -240,29 +200,8 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 ## Video Demo
 
-[Chú thích: Thêm video demo ngắn về các chức năng chính của ứng dụng ở đây]
-
-## Triển Khai Tính Năng Chính
-
-### Quản Lý Kỹ Năng
-
-- Ứng viên có thể thêm và cập nhật kỹ năng với mức độ thành thạo
-- Kỹ năng được phân loại (Kỹ thuật, Kỹ năng mềm)
-- Thuật toán kết nối kỹ năng cho việc gợi ý công việc
 
 
-### Tìm Kiếm Việc Làm
-
-- Tìm kiếm toàn văn cho công việc
-- Lọc theo kỹ năng, mức kinh nghiệm
-- Tự động gợi ý công việc dựa trên kỹ năng của ứng viên
-
-
-### Thông Báo Qua Email
-
-- Hệ thống gửi lời mời từ công ty
-- Thông báo về công việc phù hợp
-- Cập nhật trạng thái ứng tuyển
 ## Tác giả, liên hệ
 - Facebook: [Nguyễn Đức Thịnh](fb.com/thin2k3)
 - Github: [@thinhdz1500](https://github.com/thinhdz1500)

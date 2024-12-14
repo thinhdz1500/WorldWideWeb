@@ -76,8 +76,10 @@
                             <h3 class="text-xl font-bold" th:text="${entry.value[0].candidate.fullName}"></h3>
                             <p class="text-gray-600" th:text="${entry.value[0].candidate.email}"></p>
                         </div>
-                        <button th:attr="data-email=${entry.value[0].candidate.email}"
-                                onclick="showEmailModal(this.getAttribute('data-email'))">Send Invitation
+                        <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                th:attr="data-email=${entry.value[0].candidate.email}"
+                                onclick="showEmailModal(this)">
+                            Send Invitation
                         </button>
                     </div>
                     <div class="mb-2">
@@ -140,6 +142,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- Skill Selection Modal -->
 <div id="skillModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
@@ -270,8 +273,13 @@
         populateSkillList(skills);
     }
 
+
+    function showEmailModal(candidateEmail) {
+        document.getElementById('candidateEmail').value = candidateEmail;
+        document.getElementById('emailModal').classList.remove('hidden');
+    }
     function showEmailModal(button) {
-        const candidateEmail = button.previousElementSibling.querySelector('p').textContent;
+        const candidateEmail = button.getAttribute('data-email');
         document.getElementById('candidateEmail').value = candidateEmail;
         document.getElementById('emailModal').classList.remove('hidden');
     }
@@ -282,13 +290,23 @@
 
     document.getElementById('emailForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        // Here you would typically make an AJAX call to your backend to send the email
-        // For demonstration, we'll just log the form data
         const formData = new FormData(this);
-        console.log('Email data:', Object.fromEntries(formData));
-        hideEmailModal();
-        alert('Invitation sent successfully!');
+        fetch('/company/send-invitation', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                hideEmailModal();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send invitation. Please try again.');
+            });
     });
+
+
 </script>
 </body>
 </html>

@@ -1,17 +1,17 @@
 package com.thinne.frontend.controllers;
 
 import com.thinne.backend.models.*;
+import com.thinne.backend.services.EmailService;
 import com.thinne.frontend.models.CandidateModel;
 import com.thinne.frontend.models.CompanyModel;
 import com.thinne.frontend.models.JobModel;
 import jakarta.servlet.http.HttpSession;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -28,6 +28,8 @@ public class CompanyController {
     private JobModel jobModel;
     @Autowired
     private CandidateModel candidateModel;
+    @Autowired
+    private EmailService emailService;
     @RequestMapping("")
     public String showCompanyDashboard(HttpSession session){
         Company company = (Company) session.getAttribute("company");
@@ -134,5 +136,26 @@ public class CompanyController {
         model.addAttribute("candidateSkillsMap", candidateSkillsMap);
         model.addAttribute("skill", jobModel.getAllSkills());
         return "company/company-search";
+    }
+    @PostMapping("/send-invitation")
+    @ResponseBody
+    public ResponseEntity<?> sendInvitation(@RequestParam String candidateEmail,
+                                            @RequestParam String subject,
+                                            @RequestParam String message,
+                                            HttpSession session) {
+        Company company = (Company) session.getAttribute("company");
+        if (company == null) {
+            return ResponseEntity.badRequest().body("Company not logged in");
+        }
+
+        try {
+            Candidate candidate = candidateModel.findByEmail(candidateEmail);
+            String fullMessage = "Dear "+candidate.getFullName()+",\n\n" + message + "\n\nBest regards,\n" + company.getCompName();
+            emailService.sendInvitationEmail(candidateEmail, subject, fullMessage);
+            return ResponseEntity.ok("Invitation sent successfully");
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the exception for debugging
+            return ResponseEntity.badRequest().body("Failed to send invitation: " + e.getMessage());
+        }
     }
 }

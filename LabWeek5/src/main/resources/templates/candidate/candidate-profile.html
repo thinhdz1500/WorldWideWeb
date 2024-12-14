@@ -73,7 +73,7 @@
                             <option th:each="level : ${T(com.thinne.backend.models.SkillLevel).values()}"
                                     th:value="${level}"
                                     th:text="${level}"
-                                    th:selected="${level == candidateSkill.skillLevel}">
+                                    th:selected="${level.name() == candidateSkill.skillLevel.name()}">
                             </option>
                         </select>
                         <button th:onclick="'removeSkill(' + ${candidateSkill.skill.id} + ')'"

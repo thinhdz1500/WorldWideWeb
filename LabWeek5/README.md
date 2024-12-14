@@ -229,35 +229,33 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 ### Trang Quản Lý Hồ Sơ Ứng Viên
 
-[Chú thích: Thêm hình ảnh trang quản lý hồ sơ ứng viên ở đây]
-
+![img_4.png](img_4.png)
 - Hiển thị và chỉnh sửa thông tin cá nhân
 - Quản lý danh sách kỹ năng và mức độ thành thạo
 
 
 ### Trang Tìm Kiếm Việc Làm
 
-[Chú thích: Thêm hình ảnh trang tìm kiếm việc làm ở đây]
-
+![img_5.png](img_5.png)
 - Tìm kiếm công việc theo từ khóa, kỹ năng, và địa điểm
 - Hiển thị danh sách công việc phù hợp
 
 
 ### Trang Quản Lý Công Ty
 
-[Chú thích: Thêm hình ảnh trang quản lý công ty ở đây]
-
+![img_6.png](img_6.png)
 - Quản lý thông tin công ty
 - Đăng và quản lý tin tuyển dụng
 
 
 ### Trang Tìm Kiếm Ứng Viên
 
-[Chú thích: Thêm hình ảnh trang tìm kiếm ứng viên ở đây]
-
+![img_7.png](img_7.png)
 - Tìm kiếm ứng viên dựa trên kỹ năng và kinh nghiệm
 - Gửi lời mời phỏng vấn qua email
-
+![img_8.png](img_8.png)
+- Email thông báo lời mời phỏng vấn
+![img_9.png](img_9.png)
 
 ## Video Demo
 
@@ -284,3 +282,7 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 - Hệ thống gửi lời mời từ công ty
 - Thông báo về công việc phù hợp
 - Cập nhật trạng thái ứng tuyển
+## Tác giả, liên hệ
+- Facebook: [Nguyễn Đức Thịnh](fb.com/thin2k3)
+- Github: [@thinhdz1500](https://github.com/thinhdz1500)
+- Email: thinhdz1500@gmail.com

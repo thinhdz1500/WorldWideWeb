@@ -34,7 +34,7 @@
     - Spring Security
     - Spring Data JPA
     - Spring Mail
-    - MySQL Database
+    - HeidiSQL
 
 - **Frontend**
     - Thymeleaf template engine

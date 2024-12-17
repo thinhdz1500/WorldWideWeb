@@ -2,11 +2,11 @@
 
 ## Thông tin
 #### **Trường**: Đại học Công nghiệp TP Hồ Chí Minh - IUH
-#### **Họ tên**: Nguễn Đức Thịnh
+#### **Họ tên**: Nguyễn Đức Thịnh
 #### **Mã sinh viên**: 21074131
 #### **Giảng viên hướng dẫn**: Võ Văn Hải
 #### **Công nghệ**: Spring MVC, Spring Boot
- **File báo cáo**: [Tại đây]()
+ **File báo cáo**: [Tại đây](https://github.com/thinhdz1500/WorldWideWeb/blob/main/LabWeek5/report.docx)
 -------------------
 ## Tổng Quan
 Đây là một ứng dụng web cổng thông tin việc làm được xây dựng bằng Spring Boot, kết nối người tìm việc (ứng viên) với nhà tuyển dụng (công ty). Ứng dụng có các tính năng như xác thực người dùng, đăng tin tuyển dụng, quản lý hồ sơ ứng viên, kết nối kỹ năng và thông báo qua email.

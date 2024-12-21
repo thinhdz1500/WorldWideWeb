@@ -1,29 +1,33 @@
-//jsp
-<%@ page language="java" contentType="text/html;charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%--<th><fmt:formatNumber value="${ac.amount}" type="number" /></th>--%>
-
 dependencies {
-    compileOnly('jakarta.platform:jakarta.jakartaee-api:10.0.0')
-    compileOnly('jakarta.mvc:jakarta.mvc-api:2.1.0')
-    implementation('org.hibernate:hibernate-core:6.3.1.Final')
-    implementation('org.glassfish.jaxb:jaxb-runtime:4.0.3')
-    //thiếu
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    /// https://mvnrepository.com/artifact/org.projectlombok/lombok
-    compileOnly 'org.projectlombok:lombok:1.18.34'
-    annotationProcessor 'org.projectlombok:lombok:1.18.34'
-
-    // JSP
-    implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:2.0.0'
-    implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:2.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
-//persistence.xml
-<persistence-unit name="thinne" transaction-type="JTA">
-        <jta-data-source>jdbc/priceDs</jta-data-source>
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    </persistence-unit>
+//properties
+
+spring.datasource.url=jdbc:mariadb://localhost:3306/shop
+spring.datasource.username=root
+spring.datasource.password=sapassword
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+
+logging.level.org.thymeleaf=DEBUG
+#logging.level.org.thymeleaf.templatemode.Standard=DEBUG
+spring.jackson.serialization.FAIL_ON_EMPTY_BEANS=false
+
+//html
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
